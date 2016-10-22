@@ -42,6 +42,7 @@ public class BDapi {
 
     //*************************************************************************
     // level 2 abstraction
+    
     private String SQLaddUser(Utilisateur U) {
         String SQL;
         String SQL_DEBUT = "INSERT INTO utilisateur VALUES('";
@@ -53,6 +54,7 @@ public class BDapi {
         SQL += U.identifiant.motDePasse + SQL_SEPARATEUR;
         SQL += U.profile.nom + SQL_SEPARATEUR;
         SQL += U.profile.prenom + SQL_SEPARATEUR;
+        SQL += U.profile.numeroTelephone + SQL_SEPARATEUR;
         SQL += U.profile.adresseCourriel + SQL_SEPARATEUR;
         SQL += "1" + SQL_SEPARATEUR;  // dispo
         SQL += "1" + SQL_SEPARATEUR;  // eval
@@ -81,6 +83,7 @@ public class BDapi {
     
     //*************************************************************************
     // level 3 abstraction
+    
     private Utilisateur updateUtilisateurWithRSutilisateurData(
             Utilisateur U, ResultSet RSutilisateur) {
         try {
@@ -89,6 +92,7 @@ public class BDapi {
                 U.identifiant.motDePasse = RSutilisateur.getString("motDePasse");
                 U.profile.nom = RSutilisateur.getString("nom");
                 U.profile.prenom = RSutilisateur.getString("prenom");
+                U.profile.numeroTelephone = RSutilisateur.getString("noTelephone");
                 U.profile.adresseCourriel = RSutilisateur.getString("courriel");
             }
         } catch (Exception ex) {
