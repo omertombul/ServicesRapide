@@ -7,32 +7,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DbConnection {
-
     // class Vars
-    String idUsagerAtrouver = ""; // id a obtenir
     Connection conn = null;
     Statement stmt = null;
+    String SQL = null;
+    ResultSet rs = null;
+    
     // vars for test
     String utilisateur = "utilisateur"; // c'est la table de la DB to select from.
     String idUsager = ""; // remplacer par userObj.idUsager
-    ResultSet rs = null; // objet qui contient le(s) resultat(s) ou NULL;
-    String SQL = null;
-
+    
     /**
      * constructeur String s n'est pas utilise pour le moment
      */
-    public DbConnection(String usagerAtrouver, String SQL) {  // Remplacer paremetre par ObjUtilisateur U selon besoins
+    public DbConnection(String SQL) { 
         this.SQL = SQL;
         //idUsagerAtrouver = usagerAtrouver; // will be replaced by primary key eventually
         Connection conn = makeConnection();
         Statement stmt = makeStatement();
-        //insertData( conn );
-        //rs = getDataFromDb(conn);
-        //closeConnection(conn);
     }
 
     private Connection makeConnection() {
-
         String url = "jdbc:mysql://localhost:8889/services";
         String usr = "root";
         String psw = "root";
@@ -57,40 +52,32 @@ public class DbConnection {
     }
 
     private Statement makeStatement() {
-        Statement stmt = null;
         try {
             stmt = conn.createStatement();
         } catch (SQLException ex) {
-            System.out.println("Error Getting Data: stmt");
+            System.out.println(ex + "Error making DB statement");
         }
         return stmt;
     }
 
-    private void insertData(Connection conn) {
-        System.out.println("Start Update");
-        ResultSet rs = null;
-
+    private void insertToDB() {
+        System.out.println("Start Insert data into DB");
         try {
             System.out.println("SQL string is: " + SQL);
-
             stmt.executeUpdate(SQL);
         } catch (SQLException ex) {
-
-            System.out.println(ex + "    Error Getting Data: update");
+            System.out.println(ex + "    Error Putting new Data into DB");
         }
-        System.out.println("End Update");
-
+        System.out.println("End Insert data into DB");
     }
 
-    private ResultSet getDataFromDb(Connection conn) {
+    public ResultSet readFromDataBase() {
         System.out.println("Start get RS");
-        ResultSet rs = null;
         try {
             System.out.println("SQL string is: " + SQL);
-            //rs = stmt.executeQuery(SQL);
             stmt.executeQuery(SQL);
         } catch (SQLException ex) {
-            System.out.println("    Error Getting Data: rs");
+            System.out.println(ex + "    Error Getting Data: rs");
         }
         System.out.println("End get RS");
         return rs;
@@ -100,12 +87,8 @@ public class DbConnection {
         try {
             conn.close();
         } catch (SQLException ex) {
-            System.out.println("Error Closing Connection");
+            System.out.println(ex + "Error Closing Connection");
         }
-        System.out.println("");
-    }
-
-    public ResultSet getResultSet() {
-        return this.rs;
+        System.out.println("Connection closed");
     }
 }

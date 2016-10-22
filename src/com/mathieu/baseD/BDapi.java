@@ -41,7 +41,7 @@ public class BDapi{
         System.out.println(SQL);
         
         //String SQL = "INSERT INTO utilisateur VALUES('usager1', 'abcd1234', 'StPierre', 'Georges', 'gsp@test.com', '1', '99', '45.5017');";
-        DbConnection db = new DbConnection(U.identifiant.nomUtilisateur, SQL);
+        DbConnection db = new DbConnection(SQL);
         
         //ResultSet rs = db.getResultSet();
     }
