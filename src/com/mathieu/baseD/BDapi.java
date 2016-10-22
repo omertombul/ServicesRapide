@@ -18,13 +18,14 @@ import java.sql.SQLException;
 public class BDapi {
 
     public BDapi() {
-        System.out.println("Constructeur Api");
+        System.out.println("Start: Constructeur Api");
     }
 
     public void addUser(Utilisateur U) {
-        System.out.println("Debut construction String SQL: add User");
+        System.out.println("Debut addUser()");
         String SQL = SQLaddUser(U);
         DbConnection DB = new DbConnection(SQL);
+        DB.insertToDB();
         DB.closeConnection();
     }
 
@@ -53,10 +54,10 @@ public class BDapi {
         SQL += U.profile.nom + SQL_SEPARATEUR;
         SQL += U.profile.prenom + SQL_SEPARATEUR;
         SQL += U.profile.adresseCourriel + SQL_SEPARATEUR;
-        SQL += "'1'" + SQL_SEPARATEUR;  // dispo
-        SQL += "'1'" + SQL_SEPARATEUR;  // eval
-        SQL += "'1'" + SQL_FIN;         // geo coordonnees
-        System.out.println("String SQL addUser: " + SQL);
+        SQL += "1" + SQL_SEPARATEUR;  // dispo
+        SQL += "1" + SQL_SEPARATEUR;  // eval
+        SQL += "1" + SQL_FIN;         // geo coordonnees
+        System.out.println("    String SQL addUser: " + SQL);
         return SQL;
     }
 
@@ -65,7 +66,7 @@ public class BDapi {
         String SQL_DEBUT = "SELECT * FROM utilisateur WHERE idUsager = ";
         String SQL_FIN = ";";
         SQL = SQL_DEBUT + U.identifiant.nomUtilisateur + SQL_FIN;
-        System.out.println("String SQL getUser: " + SQL);
+        System.out.println("    String SQL getUser: " + SQL);
         return SQL;
     }
     

@@ -7,30 +7,35 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DbConnection {
+
     // class Vars
     Connection conn = null;
     Statement stmt = null;
     String SQL = null;
     ResultSet rs = null;
-    
-    // vars for test
-    String utilisateur = "utilisateur"; // c'est la table de la DB to select from.
-    String idUsager = ""; // remplacer par userObj.idUsager
-    
+
     /**
-     * constructeur String s n'est pas utilise pour le moment
+     * constructeur
      */
-    public DbConnection(String SQL) { 
+    public DbConnection(String SQL) {
         this.SQL = SQL;
-        //idUsagerAtrouver = usagerAtrouver; // will be replaced by primary key eventually
         Connection conn = makeConnection();
         Statement stmt = makeStatement();
     }
 
     private Connection makeConnection() {
+
+        /*
+        // connect to Omer MySQL
         String url = "jdbc:mysql://localhost:8889/services";
         String usr = "root";
         String psw = "root";
+         */
+        // connect to UQAM MySQL
+        String url = "jdbc:mysql://127.0.0.1/bd_ak791165?:3306";
+        String usr = "ak791165";
+        String psw = "uWoavCsH";
+
         // register MySQL Connector/J with the DriverManager
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -60,10 +65,10 @@ public class DbConnection {
         return stmt;
     }
 
-    private void insertToDB() {
+    public void insertToDB() {
         System.out.println("Start Insert data into DB");
         try {
-            System.out.println("SQL string is: " + SQL);
+            System.out.println("    SQL string is: " + SQL);
             stmt.executeUpdate(SQL);
         } catch (SQLException ex) {
             System.out.println(ex + "    Error Putting new Data into DB");

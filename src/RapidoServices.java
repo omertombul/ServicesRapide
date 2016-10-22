@@ -34,8 +34,9 @@ public class RapidoServices {
              id = new Identifiant("usager12", "Passwo_r" );
              //plomberie = new TypeServices(tauxHorraire, prixFixe, null, true, null, cote, null, null, null );
              user = new Utilisateur(id, profile);
-             System.out.println("Connection BD ");
-             System.out.println(user.identifiant.nomUtilisateur +  " " + user.profile.nom);
+             System.out.println("\nConnection BD from test class");
+             System.out.println("Test user: " + user.identifiant.nomUtilisateur +  " " + user.profile.nom + "\n");
+             
              bdConnect = new BDapi();
              bdConnect.addUser(user);
          }catch(MyException e){
