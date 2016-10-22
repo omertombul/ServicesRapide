@@ -92,7 +92,7 @@ public class BDapi {
                 U.profile.adresseCourriel = RSutilisateur.getString("courriel");
             }
         } catch (Exception ex) {
-            System.out.println(ex + "Error updateing User with RSutilisateur");
+            System.out.println(ex + "Error updating User with RSutilisateur");
         }
         return U;
     }
