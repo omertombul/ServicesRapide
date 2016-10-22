@@ -12,64 +12,99 @@ import java.sql.SQLException;
 
 //test
 /**
- * Write a description of class BDapi here.
- * 
- * @author (your name) 
+ * @author (your name)
  * @version (a version number or a date)
  */
-public class BDapi{
-    //DbReadFromUsager db;
-    //ResultSet rs;
-    
-    public BDapi(){
+public class BDapi {
+
+    public BDapi() {
         System.out.println("Constructeur Api");
     }
-    
-    public void addUser(Utilisateur U){
-        System.out.println("Debut requete");
+
+    public void addUser(Utilisateur U) {
+        System.out.println("Debut construction String SQL: add User");
+        String SQL = SQLaddUser(U);
+        DbConnection DB = new DbConnection(SQL);
+        DB.closeConnection();
+    }
+
+    public void getUser(Utilisateur U) {
+        System.out.println("Debut construction String SQL: get User");
+        String SQL = SQLgetUser(U);
+        DbConnection DB = new DbConnection(SQL);
+        ResultSet RSutilisateur = DB.readFromDataBase();
+        ResultSet RSservices = DB.readFromDataBase();
+        ResultSet RScompetences = DB.readFromDataBase();
+        updateUtilisateurWithRS(U, RSutilisateur, RSservices, RScompetences);
+        DB.closeConnection();
+    }
+
+    //*************************************************************************
+    // level 2 abstraction
+    private String SQLaddUser(Utilisateur U) {
         String SQL;
-        SQL = "INSERT INTO utilisateur VALUES('";
-        SQL += U.identifiant.nomUtilisateur + "', '";
-        SQL += U.identifiant.motDePasse + "', '";
-        SQL += U.profile.nom + "', '";
-        SQL += U.profile.prenom + "', '";
-        SQL += U.profile.adresseCourriel + "', '1";
-        SQL += "', '1"; // disponibilite
-        SQL += "', '1"; // cote
-        SQL += "');"; // GEOLOC
-        
-        System.out.println(SQL);
-        
-        //String SQL = "INSERT INTO utilisateur VALUES('usager1', 'abcd1234', 'StPierre', 'Georges', 'gsp@test.com', '1', '99', '45.5017');";
-        DbConnection db = new DbConnection(SQL);
-        
-        //ResultSet rs = db.getResultSet();
+        String SQL_DEBUT = "INSERT INTO utilisateur VALUES('";
+        String SQL_SEPARATEUR = "' ,'";
+        String SQL_FIN = "');";
+
+        SQL = SQL_DEBUT;
+        SQL += U.identifiant.nomUtilisateur + SQL_SEPARATEUR;
+        SQL += U.identifiant.motDePasse + SQL_SEPARATEUR;
+        SQL += U.profile.nom + SQL_SEPARATEUR;
+        SQL += U.profile.prenom + SQL_SEPARATEUR;
+        SQL += U.profile.adresseCourriel + SQL_SEPARATEUR;
+        SQL += "'1'" + SQL_SEPARATEUR;  // dispo
+        SQL += "'1'" + SQL_SEPARATEUR;  // eval
+        SQL += "'1'" + SQL_FIN;         // geo coordonnees
+        System.out.println("String SQL addUser: " + SQL);
+        return SQL;
+    }
+
+    private String SQLgetUser(Utilisateur U) {
+        String SQL;
+        String SQL_DEBUT = "SELECT * FROM utilisateur WHERE idUsager = ";
+        String SQL_FIN = ";";
+        SQL = SQL_DEBUT + U.identifiant.nomUtilisateur + SQL_FIN;
+        System.out.println("String SQL getUser: " + SQL);
+        return SQL;
     }
     
-    /**
-     * constructeur
-     */
-//    public void getUserInfoFromDB(Utilisateur U){
-//        String SQL = "SELECT * FROM utilisateur WHERE idUsager = '" + U.idUsager + "'";
-//        DbReadFromUsager db = new DbReadFromUsager(U.idUsager, SQL);
-//        ResultSet rs = db.getResultSet();
-//
-//        try{
-//            rs.beforeFirst();
-//            while(rs.next()){
-//                U.motDePasse = rs.getString("motDePasse");
-//                U.nom = rs.getString("nom");
-//                U.preNom = rs.getString("prenom");
-//                U.courriel = rs.getString("courriel");
-//            }
-//        } catch (Exception ex){
-//            System.out.println("Could not get RS.");
-//        }
-//        db.closeConnection();
-//    }
+    private Utilisateur updateUtilisateurWithRS(
+            Utilisateur U, ResultSet RSutilisateur, ResultSet RSservices,
+            ResultSet RScompetences){
+        updateUtilisateurWithRSutilisateurData(U, RSutilisateur);
+        updateUtilisateurWithRSservicesData(U, RSservices);
+        updateUtilisateurWithRScompetencesData(U, RScompetences);
+        return U;
+    }
     
-//    private String makeSqlString(String table, String searchKey){
-//        String SQL = "SELECT * FROM " + table + " WHERE idUsager = '" + searchKey + "'";
-//        return SQL;
-//    }
+    //*************************************************************************
+    // level 3 abstraction
+    private Utilisateur updateUtilisateurWithRSutilisateurData(
+            Utilisateur U, ResultSet RSutilisateur) {
+        try {
+            RSutilisateur.beforeFirst();
+            while (RSutilisateur.next()) {
+                U.identifiant.motDePasse = RSutilisateur.getString("motDePasse");
+                U.profile.nom = RSutilisateur.getString("nom");
+                U.profile.prenom = RSutilisateur.getString("prenom");
+                U.profile.adresseCourriel = RSutilisateur.getString("courriel");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex + "Error updateing User with RSutilisateur");
+        }
+        return U;
+    }
+
+    private void updateUtilisateurWithRSservicesData(
+            Utilisateur U, ResultSet RSservices) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // TODO implement this function: need to know how service ArrayList workds
+    }
+
+    private void updateUtilisateurWithRScompetencesData(
+            Utilisateur U, ResultSet RScompetences) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // TODO implement this function: need to know how competence ArrayList workds
+    }
 }
