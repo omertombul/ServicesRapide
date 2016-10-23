@@ -15,16 +15,16 @@ import java.sql.SQLException;
  * @author (your name)
  * @version (a version number or a date)
  */
-public class BDapi {
+public class BdApi {
 
-    public BDapi() {
+    public BdApi() {
         System.out.println("Start: Constructeur Api");
     }
 
     public void addUser(Utilisateur U) {
         System.out.println("Debut addUser()");
         String SQL = SQLaddUser(U);
-        DbConnection DB = new DbConnection(SQL);
+        BdConnection DB = new BdConnection(SQL);
         DB.insertToDB();
         DB.closeConnection();
     }
@@ -32,19 +32,19 @@ public class BDapi {
     public void getUser(Utilisateur U) {
         System.out.println("Debut construction String SQL: get User");
         String SQL = SQLgetUser(U);
-        DbConnection DB = new DbConnection(SQL);
+        BdConnection DB = new BdConnection(SQL);
         ResultSet RSutilisateur = DB.readFromDataBase();
         updateUtilisateurWithRSutilisateurData(U, RSutilisateur);
         DB.closeConnection();
 
         SQL = SQLgetServices(U);
-        DB = new DbConnection(SQL);
+        DB = new BdConnection(SQL);
         ResultSet RSservices = DB.readFromDataBase();
         updateUtilisateurWithRSservicesData(U, RSservices);
         DB.closeConnection();
 
         SQL = SQLgetCompetences(U);
-        DB = new DbConnection(SQL);
+        DB = new BdConnection(SQL);
         ResultSet RScompetences = DB.readFromDataBase();
         updateUtilisateurWithRScompetencesData(U, RScompetences);
         DB.closeConnection();

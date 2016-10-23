@@ -20,7 +20,7 @@ public class RapidoServices {
     public static Identifiant id;
     public static Utilisateur user;
     public static AbstraiteServices plomberie;
-    public static BDapi bdConnect;
+    public static BdApi bdConnect;
     
     
     
@@ -37,7 +37,7 @@ public class RapidoServices {
              System.out.println("\nConnection BD from test class");
              System.out.println("Test user: " + user.identifiant.nomUtilisateur +  " " + user.profile.nom + "\n");
              
-             bdConnect = new BDapi();
+             bdConnect = new BdApi();
              bdConnect.addUser(user);
          }catch(MyException e){
              System.out.println(e);
