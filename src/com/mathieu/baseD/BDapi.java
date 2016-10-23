@@ -34,9 +34,22 @@ public class BDapi {
         String SQL = SQLgetUser(U);
         DbConnection DB = new DbConnection(SQL);
         ResultSet RSutilisateur = DB.readFromDataBase();
+        updateUtilisateurWithRSutilisateurData(U, RSutilisateur);
+        DB.closeConnection();
+
+        SQL = SQLgetServices(U);
+        DB = new DbConnection(SQL);
         ResultSet RSservices = DB.readFromDataBase();
+        updateUtilisateurWithRSservicesData(U, RSservices);
+        DB.closeConnection();
+
+        SQL = SQLgetCompetences(U);
+        DB = new DbConnection(SQL);
         ResultSet RScompetences = DB.readFromDataBase();
-        updateUtilisateurWithRS(U, RSutilisateur, RSservices, RScompetences);
+        updateUtilisateurWithRScompetencesData(U, RScompetences);
+        DB.closeConnection();
+
+        updateUtilisateurWithRScompetencesData(U, RScompetences);
         DB.closeConnection();
     }
 
@@ -69,6 +82,14 @@ public class BDapi {
         SQL = SQL_DEBUT + U.identifiant.nomUtilisateur + SQL_FIN;
         System.out.println("    String SQL getUser: " + SQL);
         return SQL;
+    }
+
+    private String SQLgetServices(Utilisateur U) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private String SQLgetCompetences(Utilisateur U) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private Utilisateur updateUtilisateurWithRS(
