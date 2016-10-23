@@ -96,8 +96,8 @@ public class BDapi {
             Utilisateur U, ResultSet RSutilisateur, ResultSet RSservices,
             ResultSet RScompetences) {
         updateUtilisateurWithRSutilisateurData(U, RSutilisateur);
-        updateUtilisateurWithRSservicesData(U, RSservices);
-        updateUtilisateurWithRScompetencesData(U, RScompetences);
+        //updateUtilisateurWithRSservicesData(U, RSservices);
+        //updateUtilisateurWithRScompetencesData(U, RScompetences);
         return U;
     }
 
